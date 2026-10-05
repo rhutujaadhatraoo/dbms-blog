@@ -3,1181 +3,958 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Database Integrity Failures | Activity 3</title>
 
 <style>
-:root {
-    --bg: #f6f8fc;
-    --card: #ffffff;
-    --text: #172033;
-    --muted: #667085;
-    --primary: #3157d5;
-    --primary2: #6d5dfc;
-    --border: #e5e7eb;
-    --code: #101828;
-    --success: #16865b;
-    --danger: #c43232;
-    --shadow: 0 14px 35px rgba(31, 41, 55, 0.08);
+:root{
+  --bg:#f6f8fc;
+  --card:#fff;
+  --text:#172033;
+  --muted:#667085;
+  --primary:#3157d5;
+  --primary2:#6d5dfc;
+  --border:#e5e7eb;
+  --code:#101828;
+  --success:#16865b;
+  --danger:#c43232;
+  --shadow:0 14px 35px rgba(31,41,55,.08);
 }
 
-* {
-    box-sizing: border-box;
-    scroll-behavior: smooth;
+*{
+  box-sizing:border-box;
+  scroll-behavior:smooth;
 }
 
-body {
-    margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
+body{
+  margin:0;
+  font-family:Inter,Segoe UI,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.7;
 }
 
-/* NAVBAR */
-
-nav {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+nav{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
 }
 
-.nav-inner {
-    max-width: 1180px;
-    margin: auto;
-    padding: 14px 22px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
+.nav-inner{
+  max-width:1180px;
+  margin:auto;
+  padding:14px 22px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
 }
 
-.logo {
-    font-weight: 800;
-    color: var(--primary);
-    letter-spacing: 0.3px;
+.logo{
+  font-weight:800;
+  color:var(--primary);
+  letter-spacing:.3px;
 }
 
-.navlinks {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
+.navlinks{
+  display:flex;
+  gap:18px;
+  flex-wrap:wrap;
 }
 
-.navlinks a {
-    text-decoration: none;
-    color: #475467;
-    font-size: 0.9rem;
-    font-weight: 600;
+.navlinks a{
+  text-decoration:none;
+  color:#475467;
+  font-size:.9rem;
+  font-weight:600;
 }
 
-.navlinks a:hover {
-    color: var(--primary);
+.navlinks a:hover{
+  color:var(--primary);
 }
 
-/* HERO */
-
-.hero {
-    background: linear-gradient(
-        135deg,
-        #172554,
-        #3157d5 55%,
-        #6d5dfc
-    );
-
-    color: white;
-    padding: 85px 22px 75px;
+.hero{
+  background:linear-gradient(135deg,#172554,#3157d5 55%,#6d5dfc);
+  color:white;
+  padding:85px 22px 75px;
 }
 
-.hero-inner {
-    max-width: 1180px;
-    margin: auto;
+.hero-inner{
+  max-width:1180px;
+  margin:auto;
 }
 
-.badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 7px 13px;
-    border-radius: 999px;
-    font-size: 0.82rem;
-    font-weight: 700;
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  padding:7px 13px;
+  border-radius:999px;
+  font-size:.82rem;
+  font-weight:700;
 }
 
-h1 {
-    font-size: clamp(2.2rem, 5vw, 4.3rem);
-    line-height: 1.08;
-    margin: 20px 0 18px;
-    max-width: 900px;
+h1{
+  font-size:clamp(2.2rem,5vw,4.3rem);
+  line-height:1.08;
+  margin:20px 0 18px;
+  max-width:900px;
 }
 
-.hero p {
-    max-width: 760px;
-    font-size: 1.08rem;
-    color: #e7ebff;
+.hero p{
+  max-width:760px;
+  font-size:1.08rem;
+  color:#e7ebff;
 }
 
-.team {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 28px;
+.team{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:28px;
 }
 
-.member {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 10px 15px;
-    border-radius: 12px;
+.member{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  padding:10px 15px;
+  border-radius:12px;
 }
 
-.btn {
-    display: inline-block;
-    text-decoration: none;
-    background: white;
-    color: #2541a5;
-    padding: 12px 18px;
-    border-radius: 10px;
-    font-weight: 800;
-    margin-top: 18px;
+main{
+  max-width:1180px;
+  margin:auto;
+  padding:50px 22px;
 }
 
-/* MAIN */
-
-main {
-    max-width: 1180px;
-    margin: auto;
-    padding: 50px 22px;
+section{
+  scroll-margin-top:90px;
+  margin-bottom:55px;
 }
 
-section {
-    scroll-margin-top: 90px;
-    margin-bottom: 55px;
+h2{
+  font-size:2rem;
+  margin:0 0 15px;
 }
 
-h2 {
-    font-size: 2rem;
-    margin: 0 0 15px;
+h3{
+  font-size:1.3rem;
+  margin-top:28px;
 }
 
-h3 {
-    font-size: 1.3rem;
-    margin-top: 28px;
+.lead{
+  color:var(--muted);
+  font-size:1.03rem;
 }
 
-.lead {
-    color: var(--muted);
-    font-size: 1.03rem;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:18px;
+  margin-top:25px;
 }
 
-/* CARDS */
-
-.grid {
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit, minmax(230px, 1fr));
-    gap: 18px;
-    margin-top: 25px;
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:23px;
+  box-shadow:var(--shadow);
 }
 
-.card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 23px;
-    box-shadow: var(--shadow);
+.card h3{
+  margin-top:0;
 }
 
-.card h3 {
-    margin-top: 0;
+.icon{
+  font-size:1.8rem;
+  margin-bottom:8px;
 }
 
-.icon {
-    font-size: 1.8rem;
-    margin-bottom: 8px;
+.problem{
+  border-left:5px solid var(--primary);
+  background:white;
+  padding:20px 22px;
+  border-radius:0 15px 15px 0;
+  margin:18px 0;
+  box-shadow:var(--shadow);
 }
 
-/* PROBLEMS */
-
-.problem {
-    border-left: 5px solid var(--primary);
-    background: white;
-    padding: 20px 22px;
-    border-radius: 0 15px 15px 0;
-    margin: 18px 0;
-    box-shadow: var(--shadow);
+.tag{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:999px;
+  background:#eef2ff;
+  color:#3446a8;
+  font-size:.78rem;
+  font-weight:800;
 }
 
-.tag {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: #eef2ff;
-    color: #3446a8;
-    font-size: 0.78rem;
-    font-weight: 800;
+.table-wrap{
+  overflow:auto;
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  margin:20px 0;
 }
 
-/* TABLE */
-
-.table-wrap {
-    overflow-x: auto;
-    border-radius: 16px;
-    box-shadow: var(--shadow);
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:#fff;
+  min-width:720px;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: white;
-    min-width: 720px;
+th,td{
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
 }
 
-th,
-td {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border);
-    text-align: left;
+th{
+  background:#eef2ff;
+  color:#25346f;
 }
 
-th {
-    background: #eef2ff;
-    color: #25346f;
+tr:last-child td{
+  border-bottom:0;
 }
 
-tr:last-child td {
-    border-bottom: 0;
+pre{
+  background:var(--code);
+  color:#e6edf3;
+  border-radius:15px;
+  padding:22px;
+  overflow:auto;
+  line-height:1.55;
+  font-size:.9rem;
+  box-shadow:var(--shadow);
 }
 
-/* CODE */
-
-pre {
-    background: var(--code);
-    color: #e6edf3;
-    border-radius: 15px;
-    padding: 22px;
-    overflow-x: auto;
-    line-height: 1.55;
-    font-size: 0.9rem;
-    box-shadow: var(--shadow);
+code{
+  font-family:Consolas,Monaco,monospace;
 }
 
-code {
-    font-family: Consolas, Monaco, monospace;
+.diagram{
+  display:grid;
+  grid-template-columns:1fr 1.2fr;
+  gap:25px;
+  align-items:center;
 }
 
-/* DATABASE DIAGRAM */
-
-.diagram {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 25px;
-    align-items: center;
+.dbbox{
+  background:#fff;
+  border:2px solid #cfd6ff;
+  border-radius:18px;
+  padding:22px;
+  box-shadow:var(--shadow);
 }
 
-.dbbox {
-    background: white;
-    border: 2px solid #cfd6ff;
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow: var(--shadow);
+.dbbox h3{
+  margin:0 0 10px;
+  color:var(--primary);
 }
 
-.dbbox h3 {
-    margin: 0 0 10px;
-    color: var(--primary);
+.arrow{
+  text-align:center;
+  font-size:2rem;
+  color:var(--primary);
+  font-weight:bold;
 }
 
-.arrow {
-    text-align: center;
-    font-size: 2rem;
-    color: var(--primary);
-    font-weight: bold;
+.callout{
+  padding:20px;
+  border-radius:16px;
+  background:#edfdf5;
+  border:1px solid #b7ead2;
+  color:#145b3e;
 }
 
-/* REFERENTIAL ACTIONS */
-
-.refer-grid {
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit, minmax(280px, 1fr));
-    gap: 18px;
+.warning{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  color:#9a4d0b;
+  padding:15px;
+  border-radius:10px;
 }
 
-.refer-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 17px;
-    padding: 22px;
-    box-shadow: var(--shadow);
+.footer{
+  background:#111827;
+  color:#d1d5db;
+  text-align:center;
+  padding:35px 22px;
+  margin-top:30px;
 }
 
-.refer-card strong {
-    color: var(--primary);
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  background:white;
+  color:#2541a5;
+  padding:12px 18px;
+  border-radius:10px;
+  font-weight:800;
+  margin-top:18px;
 }
 
-/* CALLOUTS */
-
-.callout {
-    padding: 20px;
-    border-radius: 16px;
-    background: #edfdf5;
-    border: 1px solid #b7ead2;
-    color: #145b3e;
+.refer-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:18px;
 }
 
-.warning {
-    background: #fff7ed;
-    border: 1px solid #fed7aa;
-    color: #9a4d0b;
-    padding: 15px;
-    border-radius: 12px;
+.refer-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:22px;
+  box-shadow:var(--shadow);
 }
 
-/* FOOTER */
-
-.footer {
-    background: #111827;
-    color: #d1d5db;
-    text-align: center;
-    padding: 35px 22px;
-    margin-top: 30px;
+.refer-card strong{
+  color:var(--primary);
 }
 
-.small {
-    font-size: 0.9rem;
-    color: var(--muted);
+.small{
+  font-size:.9rem;
+  color:var(--muted);
 }
 
-/* MOBILE */
+@media(max-width:750px){
+  .nav-inner{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 
-@media (max-width: 750px) {
+  .navlinks{
+    gap:10px;
+  }
 
-    .nav-inner {
-        align-items: flex-start;
-        flex-direction: column;
-    }
+  .hero{
+    padding-top:55px;
+  }
 
-    .navlinks {
-        gap: 10px;
-    }
+  .diagram{
+    grid-template-columns:1fr;
+  }
 
-    .hero {
-        padding-top: 55px;
-    }
-
-    .diagram {
-        grid-template-columns: 1fr;
-    }
-
-    h2 {
-        font-size: 1.65rem;
-    }
+  h2{
+    font-size:1.65rem;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
-
+<!-- NAVIGATION -->
 <nav>
-    <div class="nav-inner">
+  <div class="nav-inner">
+    <div class="logo">DB Integrity • Activity 3</div>
 
-        <div class="logo">
-            DB Integrity • Activity 3
-        </div>
-
-        <div class="navlinks">
-            <a href="#overview">Overview</a>
-            <a href="#problems">Problems</a>
-            <a href="#constraints">Constraints</a>
-            <a href="#referential">Actions</a>
-            <a href="#sql">SQL</a>
-            <a href="#conclusion">Conclusion</a>
-        </div>
-
+    <div class="navlinks">
+      <a href="#overview">Overview</a>
+      <a href="#problems">Tables & Problems</a>
+      <a href="#constraints">Constraints</a>
+      <a href="#referential">Actions</a>
+      <a href="#relationships">Relationships</a>
+      <a href="#sql">SQL</a>
+      <a href="#conclusion">Conclusion</a>
     </div>
+  </div>
 </nav>
 
 
-<!-- ================= HERO ================= -->
-
+<!-- HERO SECTION -->
 <header class="hero">
+  <div class="hero-inner">
 
-    <div class="hero-inner">
+    <span class="badge">COLLEGE DATABASE • BLOG / ACTIVITY 3</span>
 
-        <span class="badge">
-            COLLEGE DATABASE • ACTIVITY 3
-        </span>
+    <h1>Analyze and Resolve Database Integrity Failures</h1>
 
-        <h1>
-            Analyze and Resolve
-            Database Integrity Failures
-        </h1>
+    <p>
+      Understanding how SQL constraints protect student data from duplicates,
+      invalid references, missing values, and incorrect marks.
+    </p>
 
-        <p>
-            Understanding how SQL constraints protect student data
-            from duplicates, invalid references, missing values,
-            and incorrect marks.
-        </p>
-
-        <div class="team">
-
-            <div class="member">
-                👩‍💻 Rhutuja Adhatrao
-            </div>
-
-            <div class="member">
-                👩‍💻 Hansika Agrawal
-            </div>
-
-            <div class="member">
-                👨‍💻 Ahad Shaikh
-            </div>
-
-        </div>
-
-        <a class="btn" href="#overview">
-            Explore the Blog ↓
-        </a>
-
+    <div class="team">
+      <div class="member">👩‍💻 Rhutuja Adhatrao</div>
+      <div class="member">👩‍💻 Hansika Agrawal</div>
+      <div class="member">👨‍💻 Ahad Shaikh</div>
     </div>
 
+    <a class="btn" href="#overview">Explore the Blog ↓</a>
+
+  </div>
 </header>
 
 
-<!-- ================= MAIN ================= -->
-
 <main>
 
-
-<!-- ================= INTRODUCTION ================= -->
-
+<!-- INTRODUCTION -->
 <section id="overview">
 
-    <h2>
-        Introduction
-    </h2>
+  <h2>Introduction</h2>
 
-    <p class="lead">
-        A database is used to store and manage information
-        in a structured and reliable manner. In a college
-        database, student details, department information,
-        email addresses and marks must remain accurate and
-        consistent.
-    </p>
+  <p class="lead">
+    A database is used to store and manage information in a structured and reliable
+    manner. In a college database, student details, department information, email
+    addresses and marks must remain accurate and consistent.
+  </p>
 
-    <p>
-        Without proper rules, a database may contain duplicate
-        Student IDs, invalid Department IDs, NULL values in
-        mandatory fields, duplicate email addresses or marks
-        outside the valid range of 0–100.
-        These are known as
-        <strong>database integrity violations</strong>.
-    </p>
+  <p>
+    Without proper rules, a database may contain duplicate Student IDs,
+    invalid Department IDs, NULL values in mandatory fields, duplicate email
+    addresses or marks outside the valid range of 0–100. These are known as
+    <strong>database integrity violations</strong>.
+  </p>
 
+  <div class="grid">
 
-    <div class="grid">
-
-        <div class="card">
-
-            <div class="icon">
-                🔑
-            </div>
-
-            <h3>
-                PRIMARY KEY
-            </h3>
-
-            <p>
-                Uniquely identifies every student record.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                🔗
-            </div>
-
-            <h3>
-                FOREIGN KEY
-            </h3>
-
-            <p>
-                Maintains valid relationships between tables.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                📌
-            </div>
-
-            <h3>
-                NOT NULL
-            </h3>
-
-            <p>
-                Ensures mandatory information is provided.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                ✉️
-            </div>
-
-            <h3>
-                UNIQUE
-            </h3>
-
-            <p>
-                Prevents duplicate email addresses.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="icon">
-                ✓
-            </div>
-
-            <h3>
-                CHECK
-            </h3>
-
-            <p>
-                Restricts marks to the valid 0–100 range.
-            </p>
-
-        </div>
-
+    <div class="card">
+      <div class="icon">🔑</div>
+      <h3>PRIMARY KEY</h3>
+      <p>Uniquely identifies every student record.</p>
     </div>
+
+    <div class="card">
+      <div class="icon">🔗</div>
+      <h3>FOREIGN KEY</h3>
+      <p>Maintains valid relationships between tables.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">📌</div>
+      <h3>NOT NULL</h3>
+      <p>Ensures mandatory information is provided.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">✉️</div>
+      <h3>UNIQUE</h3>
+      <p>Prevents duplicate email addresses.</p>
+    </div>
+
+    <div class="card">
+      <div class="icon">✓</div>
+      <h3>CHECK</h3>
+      <p>Restricts marks to the valid 0–100 range.</p>
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- ================= PROBLEMS ================= -->
-
+<!-- DEPARTMENT + STUDENT TABLES -->
 <section id="problems">
 
-    <h2>
-        1. Identifying the Integrity Failures
-    </h2>
+  <h2>1. Database Tables and Integrity Failures</h2>
 
-    <p class="lead">
-        Consider the following example records in a college database.
+  <p class="lead">
+    The following Department and Student tables are used to demonstrate
+    database integrity constraints.
+  </p>
+
+
+  <!-- DEPARTMENT TABLE -->
+  <h3>Department Table</h3>
+
+  <p>
+    The Department table stores the valid departments in the college.
+    <strong>Department_ID</strong> is the primary key and
+    <strong>Department_Name</strong> must be unique.
+  </p>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Department ID</th>
+          <th>Department Name</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>D01</td>
+          <td>Information Technology</td>
+        </tr>
+
+        <tr>
+          <td>D02</td>
+          <td>Computer Engineering</td>
+        </tr>
+
+        <tr>
+          <td>D03</td>
+          <td>Electronics Engineering</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- STUDENT TABLE -->
+  <h3>Student Table</h3>
+
+  <p>
+    Consider the following student records. Some records contain integrity
+    violations that will be identified and resolved using SQL constraints.
+  </p>
+
+  <div class="table-wrap">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Name</th>
+          <th>Department ID</th>
+          <th>Email</th>
+          <th>Marks</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr>
+          <td>S101</td>
+          <td>Rahul</td>
+          <td>D01</td>
+          <td>rahul@email.com</td>
+          <td>85</td>
+        </tr>
+
+        <tr>
+          <td>S102</td>
+          <td>Priya</td>
+          <td>D02</td>
+          <td>priya@email.com</td>
+          <td>91</td>
+        </tr>
+
+        <tr>
+          <td>S101</td>
+          <td>Amit</td>
+          <td>D03</td>
+          <td>amit@email.com</td>
+          <td>78</td>
+        </tr>
+
+        <tr>
+          <td>S103</td>
+          <td>Neha</td>
+          <td>D99</td>
+          <td>neha@email.com</td>
+          <td>88</td>
+        </tr>
+
+        <tr>
+          <td>S104</td>
+          <td>Riya</td>
+          <td>NULL</td>
+          <td>NULL</td>
+          <td>105</td>
+        </tr>
+
+        <tr>
+          <td>S105</td>
+          <td>Arjun</td>
+          <td>D01</td>
+          <td>priya@email.com</td>
+          <td>72</td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- PROBLEMS -->
+
+  <div class="problem">
+
+    <span class="tag">PRIMARY KEY</span>
+
+    <h3>Duplicate Student IDs</h3>
+
+    <p>
+      <strong>S101</strong> occurs more than once.
+      Every student needs a unique identifier.
     </p>
 
-
-    <div class="table-wrap">
-
-        <table>
-
-            <thead>
-
-                <tr>
-                    <th>Student ID</th>
-                    <th>Name</th>
-                    <th>Department ID</th>
-                    <th>Email</th>
-                    <th>Marks</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                <tr>
-                    <td>S101</td>
-                    <td>Rahul</td>
-                    <td>D01</td>
-                    <td>rahul@email.com</td>
-                    <td>85</td>
-                </tr>
-
-                <tr>
-                    <td>S102</td>
-                    <td>Priya</td>
-                    <td>D02</td>
-                    <td>priya@email.com</td>
-                    <td>91</td>
-                </tr>
-
-                <tr>
-                    <td>S101</td>
-                    <td>Amit</td>
-                    <td>D03</td>
-                    <td>amit@email.com</td>
-                    <td>78</td>
-                </tr>
-
-                <tr>
-                    <td>S103</td>
-                    <td>Neha</td>
-                    <td>D99</td>
-                    <td>neha@email.com</td>
-                    <td>88</td>
-                </tr>
-
-                <tr>
-                    <td>S104</td>
-                    <td>Riya</td>
-                    <td>NULL</td>
-                    <td>NULL</td>
-                    <td>105</td>
-                </tr>
-
-                <tr>
-                    <td>S105</td>
-                    <td>Arjun</td>
-                    <td>D01</td>
-                    <td>priya@email.com</td>
-                    <td>72</td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
+  </div>
 
 
-    <div class="problem">
+  <div class="problem">
 
-        <span class="tag">
-            PRIMARY KEY
-        </span>
+    <span class="tag">FOREIGN KEY</span>
 
-        <h3>
-            Duplicate Student IDs
-        </h3>
+    <h3>Invalid Department ID</h3>
 
-        <p>
-            <strong>S101</strong> occurs more than once.
-            Every student needs a unique identifier.
-        </p>
+    <p>
+      <strong>D99</strong> does not exist in the Department table,
+      creating a referential integrity violation.
+    </p>
 
-    </div>
+  </div>
 
 
-    <div class="problem">
+  <div class="problem">
 
-        <span class="tag">
-            FOREIGN KEY
-        </span>
+    <span class="tag">NOT NULL</span>
 
-        <h3>
-            Invalid Department ID
-        </h3>
+    <h3>Missing Mandatory Values</h3>
 
-        <p>
-            <strong>D99</strong> does not exist in the
-            Department table, creating a referential
-            integrity violation.
-        </p>
+    <p>
+      Important fields such as Student Name, Department ID and Email
+      should not be left empty.
+    </p>
 
-    </div>
+  </div>
 
 
-    <div class="problem">
+  <div class="problem">
 
-        <span class="tag">
-            NOT NULL
-        </span>
+    <span class="tag">UNIQUE</span>
 
-        <h3>
-            Missing Mandatory Values
-        </h3>
+    <h3>Duplicate Email Addresses</h3>
 
-        <p>
-            Important fields such as Student Name,
-            Department ID and Email should not be left empty.
-        </p>
+    <p>
+      <strong>priya@email.com</strong> is assigned to more than one student.
+    </p>
 
-    </div>
+  </div>
 
 
-    <div class="problem">
+  <div class="problem">
 
-        <span class="tag">
-            UNIQUE
-        </span>
+    <span class="tag">CHECK</span>
 
-        <h3>
-            Duplicate Email Addresses
-        </h3>
+    <h3>Marks Outside 0–100</h3>
 
-        <p>
-            <strong>priya@email.com</strong> is assigned
-            to more than one student.
-        </p>
+    <p>
+      A mark of <strong>105</strong> is invalid because marks must
+      be between 0 and 100.
+    </p>
 
-    </div>
-
-
-    <div class="problem">
-
-        <span class="tag">
-            CHECK
-        </span>
-
-        <h3>
-            Marks Outside 0–100
-        </h3>
-
-        <p>
-            A mark of <strong>105</strong> is invalid because
-            marks must be between 0 and 100.
-        </p>
-
-    </div>
+  </div>
 
 </section>
 
 
-<!-- ================= CONSTRAINTS ================= -->
-
+<!-- CONSTRAINTS -->
 <section id="constraints">
 
-    <h2>
-        2. SQL Constraints: Solutions and Justifications
-    </h2>
+  <h2>2. SQL Constraints: Solutions and Justifications</h2>
 
 
-    <!-- PRIMARY KEY -->
+  <div class="card">
 
-    <div class="card">
+    <span class="tag">PRIMARY KEY</span>
 
-        <span class="tag">
-            PRIMARY KEY
-        </span>
+    <h3>Preventing Duplicate Student IDs</h3>
 
-        <h3>
-            Preventing Duplicate Student IDs
-        </h3>
+    <p>
+      A Student ID uniquely identifies a student, so it is the appropriate
+      candidate for a primary key. A primary key cannot contain duplicate
+      or NULL values.
+    </p>
 
-        <p>
-            A Student ID uniquely identifies a student, so
-            it is the appropriate candidate for a primary key.
-            A primary key cannot contain duplicate or NULL values.
-        </p>
+    <pre><code>Student_ID VARCHAR(10) PRIMARY KEY</code></pre>
 
-        <pre><code>Student_ID VARCHAR(10) PRIMARY KEY</code></pre>
-
-        <div class="warning">
-
-            <strong>
-                If omitted:
-            </strong>
-
-            Duplicate records could be stored, and it would
-            become difficult to identify, update or delete
-            a particular student reliably.
-
-        </div>
-
+    <div class="warning">
+      <strong>If omitted:</strong>
+      duplicate records could be stored, and it would become difficult
+      to identify, update or delete a particular student reliably.
     </div>
 
+  </div>
 
-    <!-- FOREIGN KEY -->
 
-    <div class="card">
+  <div class="card">
 
-        <span class="tag">
-            FOREIGN KEY
-        </span>
+    <span class="tag">FOREIGN KEY</span>
 
-        <h3>
-            Preventing Invalid Department IDs
-        </h3>
+    <h3>Preventing Invalid Department IDs</h3>
 
-        <p>
-            Department_ID in Student should refer to a valid
-            Department_ID in the Department table. This keeps
-            the relationship between the two tables consistent.
-        </p>
+    <p>
+      Department_ID in Student should refer to a valid Department_ID
+      in the Department table. This keeps the relationship between
+      the two tables consistent.
+    </p>
 
-        <pre><code>FOREIGN KEY (Department_ID)
+    <pre><code>FOREIGN KEY (Department_ID)
 REFERENCES Department(Department_ID)</code></pre>
 
-        <div class="warning">
-
-            <strong>
-                If omitted:
-            </strong>
-
-            Students could be assigned to departments that
-            do not exist, creating orphan or invalid references.
-
-        </div>
-
+    <div class="warning">
+      <strong>If omitted:</strong>
+      students could be assigned to departments that do not exist,
+      creating invalid references.
     </div>
 
+  </div>
 
-    <!-- NOT NULL -->
 
-    <div class="card">
+  <div class="card">
 
-        <span class="tag">
-            NOT NULL
-        </span>
+    <span class="tag">NOT NULL</span>
 
-        <h3>
-            Preventing Missing Mandatory Information
-        </h3>
+    <h3>Preventing Missing Mandatory Information</h3>
 
-        <p>
-            Required information such as Student Name,
-            Department ID and Email should always have a value.
-        </p>
+    <p>
+      Required information such as Student Name, Department ID and Email
+      should always have a value.
+    </p>
 
-        <pre><code>Student_Name VARCHAR(100) NOT NULL,
+    <pre><code>Student_Name VARCHAR(100) NOT NULL,
 Department_ID VARCHAR(10) NOT NULL,
 Email VARCHAR(100) NOT NULL</code></pre>
 
-        <div class="warning">
-
-            <strong>
-                If omitted:
-            </strong>
-
-            Incomplete records could be stored, making
-            reports, searches and applications less reliable.
-
-        </div>
-
+    <div class="warning">
+      <strong>If omitted:</strong>
+      incomplete records could be stored, making reports and searches
+      less reliable.
     </div>
 
-
-    <!-- UNIQUE -->
-
-    <div class="card">
-
-        <span class="tag">
-            UNIQUE
-        </span>
-
-        <h3>
-            Preventing Duplicate Email Addresses
-        </h3>
-
-        <p>
-            A student's email address should be unique when
-            it is used as a login, communication or account
-            identifier.
-        </p>
-
-        <pre><code>Email VARCHAR(100) NOT NULL UNIQUE</code></pre>
-
-        <div class="warning">
-
-            <strong>
-                If omitted:
-            </strong>
-
-            Multiple accounts could use the same email,
-            potentially causing login and password-reset problems.
-
-        </div>
-
-    </div>
+  </div>
 
 
-    <!-- CHECK -->
+  <div class="card">
 
-    <div class="card">
+    <span class="tag">UNIQUE</span>
 
-        <span class="tag">
-            CHECK
-        </span>
+    <h3>Preventing Duplicate Email Addresses</h3>
 
-        <h3>
-            Keeping Marks Between 0 and 100
-        </h3>
-
-        <p>
-            The CHECK constraint enforces the business rule
-            that valid marks must satisfy:
-            <strong>0 ≤ Marks ≤ 100</strong>.
-        </p>
-
-        <pre><code>Marks INT CHECK (Marks >= 0 AND Marks <= 100)</code></pre>
-
-        <div class="warning">
-
-            <strong>
-                If omitted:
-            </strong>
-
-            Values such as -10, 105 or 150 could be stored,
-            producing incorrect results and reports.
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= REFERENTIAL ACTIONS ================= -->
-
-<section id="referential">
-
-    <h2>
-        3. Referential Actions
-    </h2>
-
-    <p class="lead">
-
-        Referential actions determine what happens to related
-        Student records when a referenced Department record
-        is deleted or changed.
-
+    <p>
+      A student's email address should be unique when it is used as
+      a login, communication or account identifier.
     </p>
 
+    <pre><code>Email VARCHAR(100) NOT NULL UNIQUE</code></pre>
 
-    <div class="refer-grid">
-
-
-        <!-- RESTRICT -->
-
-        <div class="refer-card">
-
-            <h3>
-                🛑 RESTRICT
-            </h3>
-
-            <p>
-                Prevents deletion of a department while
-                dependent student records exist.
-            </p>
-
-            <pre><code>ON DELETE RESTRICT</code></pre>
-
-            <p>
-
-                <strong>
-                    Recommended when:
-                </strong>
-
-                Student records must be preserved and a
-                department should not disappear while
-                students still reference it.
-
-            </p>
-
-        </div>
-
-
-        <!-- CASCADE -->
-
-        <div class="refer-card">
-
-            <h3>
-                ⚡ CASCADE
-            </h3>
-
-            <p>
-                Automatically deletes dependent student
-                records when the referenced department is deleted.
-            </p>
-
-            <pre><code>ON DELETE CASCADE</code></pre>
-
-            <p>
-
-                <strong>
-                    Risk:
-                </strong>
-
-                Deleting one department could unintentionally
-                delete all associated students.
-
-            </p>
-
-        </div>
-
-
-        <!-- SET NULL -->
-
-        <div class="refer-card">
-
-            <h3>
-                ↪ SET NULL
-            </h3>
-
-            <p>
-                Leaves the student record but removes its
-                department relationship by setting
-                Department_ID to NULL.
-            </p>
-
-            <pre><code>ON DELETE SET NULL</code></pre>
-
-            <p>
-
-                <strong>
-                    Requirement:
-                </strong>
-
-                Department_ID must allow NULL.
-
-            </p>
-
-        </div>
-
+    <div class="warning">
+      <strong>If omitted:</strong>
+      multiple accounts could use the same email.
     </div>
 
+  </div>
 
-    <div class="callout">
 
-        <strong>
-            Recommended choice for this college example:
-        </strong>
+  <div class="card">
 
-        ON DELETE RESTRICT is generally the safest option
-        when student academic records must not be accidentally deleted.
+    <span class="tag">CHECK</span>
 
+    <h3>Keeping Marks Between 0 and 100</h3>
+
+    <p>
+      The CHECK constraint enforces the rule that valid marks must
+      satisfy 0 ≤ Marks ≤ 100.
+    </p>
+
+    <pre><code>Marks INT CHECK (Marks >= 0 AND Marks <= 100)</code></pre>
+
+    <div class="warning">
+      <strong>If omitted:</strong>
+      values such as -10, 105 or 150 could be stored.
     </div>
+
+  </div>
 
 </section>
 
 
-<!-- ================= DATABASE DIAGRAM ================= -->
+<!-- REFERENTIAL ACTIONS -->
+<section id="referential">
 
-<section>
+  <h2>3. Referential Actions</h2>
 
-    <h2>
-        4. How the Database Relationships Work
-    </h2>
-
-
-    <div class="diagram">
-
-        <div class="dbbox">
-
-            <h3>
-                Department Table
-            </h3>
-
-            <p>
-                <strong>
-                    Department_ID
-                </strong>
-                — PRIMARY KEY
-            </p>
-
-            <p>
-                <strong>
-                    Department_Name
-                </strong>
-                — NOT NULL, UNIQUE
-            </p>
-
-        </div>
+  <p class="lead">
+    Referential actions determine what happens to related Student records
+    when a referenced Department record is deleted or changed.
+  </p>
 
 
-        <div class="arrow">
+  <div class="refer-grid">
 
-            ⟷
+    <div class="refer-card">
 
-            <br>
+      <h3>🛑 RESTRICT</h3>
 
-            <span class="small">
-                FOREIGN KEY relationship
-            </span>
+      <p>
+        Prevents deletion of a department while dependent student
+        records exist.
+      </p>
 
-        </div>
+      <pre><code>ON DELETE RESTRICT</code></pre>
 
-
-        <div class="dbbox">
-
-            <h3>
-                Student Table
-            </h3>
-
-            <p>
-                <strong>
-                    Student_ID
-                </strong>
-                — PRIMARY KEY
-            </p>
-
-            <p>
-                <strong>
-                    Student_Name
-                </strong>
-                — NOT NULL
-            </p>
-
-            <p>
-                <strong>
-                    Department_ID
-                </strong>
-                — FOREIGN KEY
-            </p>
-
-            <p>
-                <strong>
-                    Email
-                </strong>
-                — NOT NULL, UNIQUE
-            </p>
-
-            <p>
-                <strong>
-                    Marks
-                </strong>
-                — CHECK 0–100
-            </p>
-
-        </div>
+      <p>
+        <strong>Recommended when:</strong>
+        student records must be preserved.
+      </p>
 
     </div>
+
+
+    <div class="refer-card">
+
+      <h3>⚡ CASCADE</h3>
+
+      <p>
+        Automatically deletes dependent student records when the
+        referenced department is deleted.
+      </p>
+
+      <pre><code>ON DELETE CASCADE</code></pre>
+
+      <p>
+        <strong>Risk:</strong>
+        deleting one department could unintentionally delete
+        all associated students.
+      </p>
+
+    </div>
+
+
+    <div class="refer-card">
+
+      <h3>↪ SET NULL</h3>
+
+      <p>
+        Leaves the student record but removes its department
+        relationship by setting Department_ID to NULL.
+      </p>
+
+      <pre><code>ON DELETE SET NULL</code></pre>
+
+      <p>
+        <strong>Requirement:</strong>
+        Department_ID must allow NULL.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="callout" style="margin-top:22px">
+
+    <strong>Recommended choice for this college example:</strong>
+
+    <code>ON DELETE RESTRICT</code>
+
+    is generally the safest option when student academic records
+    must not be accidentally deleted.
+
+  </div>
 
 </section>
 
 
-<!-- ================= SQL ================= -->
+<!-- RELATIONSHIPS -->
+<section id="relationships">
 
+  <h2>4. How the Database Relationships Work</h2>
+
+  <div class="diagram">
+
+    <div class="dbbox">
+
+      <h3>Department Table</h3>
+
+      <p>
+        <strong>Department_ID</strong> — PRIMARY KEY
+      </p>
+
+      <p>
+        <strong>Department_Name</strong> — NOT NULL, UNIQUE
+      </p>
+
+    </div>
+
+
+    <div class="arrow">
+
+      ⟷
+
+      <br>
+
+      <span class="small">
+        FOREIGN KEY relationship
+      </span>
+
+    </div>
+
+
+    <div class="dbbox">
+
+      <h3>Student Table</h3>
+
+      <p>
+        <strong>Student_ID</strong> — PRIMARY KEY
+      </p>
+
+      <p>
+        <strong>Student_Name</strong> — NOT NULL
+      </p>
+
+      <p>
+        <strong>Department_ID</strong> — FOREIGN KEY
+      </p>
+
+      <p>
+        <strong>Email</strong> — NOT NULL, UNIQUE
+      </p>
+
+      <p>
+        <strong>Marks</strong> — CHECK 0–100
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SQL -->
 <section id="sql">
 
-    <h2>
-        5. Complete SQL Implementation
-    </h2>
+  <h2>5. Complete SQL Implementation</h2>
 
 
-    <h3>
-        Department Table
-    </h3>
+  <h3>Department Table</h3>
 
-    <pre><code>CREATE TABLE Department (
+  <pre><code>CREATE TABLE Department (
     Department_ID VARCHAR(10) PRIMARY KEY,
     Department_Name VARCHAR(100) NOT NULL UNIQUE
 );</code></pre>
 
 
-    <h3>
-        Student Table
-    </h3>
+  <h3>Insert Department Records</h3>
 
-    <pre><code>CREATE TABLE Student (
+  <pre><code>INSERT INTO Department (Department_ID, Department_Name)
+VALUES
+('D01', 'Information Technology'),
+('D02', 'Computer Engineering'),
+('D03', 'Electronics Engineering');</code></pre>
+
+
+  <h3>Student Table</h3>
+
+  <pre><code>CREATE TABLE Student (
     Student_ID VARCHAR(10) PRIMARY KEY,
     Student_Name VARCHAR(100) NOT NULL,
     Department_ID VARCHAR(10) NOT NULL,
@@ -1190,421 +967,234 @@ Email VARCHAR(100) NOT NULL</code></pre>
 );</code></pre>
 
 
-    <h3>
-        Examples of Invalid Data
-    </h3>
+  <h3>Valid Student Records</h3>
 
-    <pre><code>-- 1. Duplicate Student ID
--- PRIMARY KEY rejects it
-
-INSERT INTO Student
-VALUES (
-    'S101',
-    'Amit',
-    'D01',
-    'amit@email.com',
-    80
-);
+  <pre><code>INSERT INTO Student
+VALUES
+('S101', 'Rahul', 'D01', 'rahul@email.com', 85),
+('S102', 'Priya', 'D02', 'priya@email.com', 91),
+('S103', 'Neha', 'D03', 'neha@email.com', 88);</code></pre>
 
 
--- 2. Invalid Department
--- FOREIGN KEY rejects it
+  <h3>Examples of Invalid Data</h3>
+
+  <pre><code>-- 1. Duplicate Student ID → PRIMARY KEY rejects it
 
 INSERT INTO Student
-VALUES (
-    'S106',
-    'Karan',
-    'D99',
-    'karan@email.com',
-    80
-);
+VALUES ('S101', 'Amit', 'D01', 'amit@email.com', 80);
 
 
--- 3. Missing Name
--- NOT NULL rejects it
+-- 2. Invalid Department → FOREIGN KEY rejects it
 
 INSERT INTO Student
-VALUES (
-    'S107',
-    NULL,
-    'D01',
-    'student@email.com',
-    80
-);
+VALUES ('S106', 'Karan', 'D99', 'karan@email.com', 80);
 
 
--- 4. Duplicate Email
--- UNIQUE rejects it
+-- 3. Missing Name → NOT NULL rejects it
 
 INSERT INTO Student
-VALUES (
-    'S108',
-    'Rohan',
-    'D01',
-    'priya@email.com',
-    80
-);
+VALUES ('S107', NULL, 'D01', 'student@email.com', 80);
 
 
--- 5. Invalid Marks
--- CHECK rejects it
+-- 4. Duplicate Email → UNIQUE rejects it
 
 INSERT INTO Student
-VALUES (
-    'S109',
-    'Neha',
-    'D01',
-    'neha@email.com',
-    105
-);</code></pre>
+VALUES ('S108', 'Rohan', 'D01', 'priya@email.com', 80);
+
+
+-- 5. Invalid Marks → CHECK rejects it
+
+INSERT INTO Student
+VALUES ('S109', 'Neha', 'D01', 'neha@email.com', 105);</code></pre>
 
 </section>
 
 
-<!-- ================= COMPARISON ================= -->
-
+<!-- CONSTRAINT COMPARISON -->
 <section>
 
-    <h2>
-        6. Constraint Comparison
-    </h2>
+  <h2>6. Constraint Comparison</h2>
 
+  <div class="table-wrap">
 
-    <div class="table-wrap">
+    <table>
 
-        <table>
+      <thead>
 
-            <thead>
+        <tr>
+          <th>Problem</th>
+          <th>Constraint</th>
+          <th>Purpose</th>
+          <th>If Omitted</th>
+        </tr>
 
-                <tr>
-                    <th>Problem</th>
-                    <th>Constraint</th>
-                    <th>Purpose</th>
-                    <th>If Omitted</th>
-                </tr>
+      </thead>
 
-            </thead>
+      <tbody>
 
-            <tbody>
+        <tr>
+          <td>Duplicate Student IDs</td>
+          <td><strong>PRIMARY KEY</strong></td>
+          <td>Uniquely identifies students</td>
+          <td>Duplicate records</td>
+        </tr>
 
-                <tr>
-                    <td>
-                        Duplicate Student IDs
-                    </td>
+        <tr>
+          <td>Invalid Department IDs</td>
+          <td><strong>FOREIGN KEY</strong></td>
+          <td>Maintains valid relationships</td>
+          <td>Invalid references</td>
+        </tr>
 
-                    <td>
-                        <strong>
-                            PRIMARY KEY
-                        </strong>
-                    </td>
+        <tr>
+          <td>NULL in mandatory fields</td>
+          <td><strong>NOT NULL</strong></td>
+          <td>Requires essential values</td>
+          <td>Incomplete records</td>
+        </tr>
 
-                    <td>
-                        Uniquely identifies students
-                    </td>
+        <tr>
+          <td>Duplicate email addresses</td>
+          <td><strong>UNIQUE</strong></td>
+          <td>Prevents repeated emails</td>
+          <td>Duplicate accounts</td>
+        </tr>
 
-                    <td>
-                        Duplicate records
-                    </td>
-                </tr>
+        <tr>
+          <td>Marks outside 0–100</td>
+          <td><strong>CHECK</strong></td>
+          <td>Enforces valid marks</td>
+          <td>Incorrect marks</td>
+        </tr>
 
+        <tr>
+          <td>Department deletion/update</td>
+          <td><strong>Referential Action</strong></td>
+          <td>Controls related records</td>
+          <td>Inconsistency or accidental deletion</td>
+        </tr>
 
-                <tr>
-                    <td>
-                        Invalid Department IDs
-                    </td>
+      </tbody>
 
-                    <td>
-                        <strong>
-                            FOREIGN KEY
-                        </strong>
-                    </td>
+    </table>
 
-                    <td>
-                        Maintains valid relationships
-                    </td>
-
-                    <td>
-                        Invalid/orphan references
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>
-                        NULL in mandatory fields
-                    </td>
-
-                    <td>
-                        <strong>
-                            NOT NULL
-                        </strong>
-                    </td>
-
-                    <td>
-                        Requires essential values
-                    </td>
-
-                    <td>
-                        Incomplete records
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>
-                        Duplicate email addresses
-                    </td>
-
-                    <td>
-                        <strong>
-                            UNIQUE
-                        </strong>
-                    </td>
-
-                    <td>
-                        Prevents repeated emails
-                    </td>
-
-                    <td>
-                        Duplicate accounts
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>
-                        Marks outside 0–100
-                    </td>
-
-                    <td>
-                        <strong>
-                            CHECK
-                        </strong>
-                    </td>
-
-                    <td>
-                        Enforces valid marks
-                    </td>
-
-                    <td>
-                        Incorrect marks
-                    </td>
-                </tr>
-
-
-                <tr>
-                    <td>
-                        Department deletion/update
-                    </td>
-
-                    <td>
-                        <strong>
-                            Referential Action
-                        </strong>
-                    </td>
-
-                    <td>
-                        Controls related records
-                    </td>
-
-                    <td>
-                        Inconsistency or accidental deletion
-                    </td>
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    </div>
+  </div>
 
 </section>
 
 
-<!-- ================= IMPORTANCE ================= -->
-
+<!-- WHY INTEGRITY MATTERS -->
 <section>
 
-    <h2>
-        7. Why Database Integrity Matters
-    </h2>
+  <h2>7. Why Database Integrity Matters</h2>
 
+  <div class="grid">
 
-    <div class="grid">
-
-        <div class="card">
-
-            <h3>
-                📊 Accurate Results
-            </h3>
-
-            <p>
-                Prevents invalid marks from affecting grades
-                and academic reports.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>
-                🎓 Reliable Student Records
-            </h3>
-
-            <p>
-                Ensures each student can be uniquely identified.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>
-                🏫 Consistent Departments
-            </h3>
-
-            <p>
-                Ensures students reference real departments.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>
-                🔐 Safer Accounts
-            </h3>
-
-            <p>
-                Unique emails reduce account and authentication
-                conflicts.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>
-                📋 Better Reporting
-            </h3>
-
-            <p>
-                Complete and consistent data produces more
-                reliable reports.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>
-                🛡️ Automatic Protection
-            </h3>
-
-            <p>
-                Constraints allow the database to reject
-                many invalid operations automatically.
-            </p>
-
-        </div>
-
+    <div class="card">
+      <h3>📊 Accurate Results</h3>
+      <p>
+        Prevents invalid marks from affecting grades and academic reports.
+      </p>
     </div>
+
+    <div class="card">
+      <h3>🎓 Reliable Student Records</h3>
+      <p>
+        Ensures each student can be uniquely identified.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🏫 Consistent Departments</h3>
+      <p>
+        Ensures students reference real departments.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🔐 Safer Accounts</h3>
+      <p>
+        Unique emails reduce account and authentication conflicts.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>📋 Better Reporting</h3>
+      <p>
+        Complete and consistent data produces more reliable reports.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>🛡️ Automatic Protection</h3>
+      <p>
+        Constraints let the database reject many invalid operations automatically.
+      </p>
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- ================= CONCLUSION ================= -->
-
+<!-- CONCLUSION -->
 <section id="conclusion">
 
-    <h2>
-        Conclusion
-    </h2>
+  <h2>Conclusion</h2>
 
-    <p class="lead">
+  <p class="lead">
+    Database integrity is essential for maintaining accurate, reliable
+    and consistent college records.
+  </p>
 
-        Database integrity is essential for maintaining
-        accurate, reliable and consistent college records.
+  <p>
+    The <strong>PRIMARY KEY</strong> prevents duplicate Student IDs and
+    uniquely identifies students. The <strong>FOREIGN KEY</strong> prevents
+    invalid Department IDs and maintains relationships between tables.
+    The <strong>NOT NULL</strong> constraint ensures mandatory information
+    is present.
+  </p>
 
-    </p>
+  <p>
+    The <strong>UNIQUE</strong> constraint prevents duplicate email
+    addresses, while the <strong>CHECK</strong> constraint ensures marks
+    remain within 0–100.
+  </p>
 
+  <p>
+    Referential actions such as <strong>RESTRICT, CASCADE and SET NULL</strong>
+    control how changes to parent records affect related records.
+    For the college example, <strong>RESTRICT</strong> is generally a safe
+    choice when student records must be preserved.
+  </p>
 
-    <p>
+  <div class="callout">
 
-        The <strong>PRIMARY KEY</strong> prevents duplicate
-        Student IDs and uniquely identifies students.
+    <strong>Final takeaway:</strong>
 
-        The <strong>FOREIGN KEY</strong> prevents invalid
-        Department IDs and maintains relationships between
-        tables.
+    Properly selected SQL constraints act as a first line of defense
+    against incorrect, duplicate and inconsistent data, making the
+    college database more reliable and maintainable.
 
-        The <strong>NOT NULL</strong> constraint ensures
-        mandatory information is present.
-
-        The <strong>UNIQUE</strong> constraint prevents
-        duplicate email addresses, while the
-        <strong>CHECK</strong> constraint ensures marks
-        remain within 0–100.
-
-    </p>
-
-
-    <p>
-
-        Referential actions such as
-        <strong>RESTRICT, CASCADE and SET NULL</strong>
-        control how changes to parent records affect
-        related records.
-
-        For the college example,
-        <strong>RESTRICT</strong> is generally a safe
-        choice when student records must be preserved.
-
-    </p>
-
-
-    <div class="callout">
-
-        <strong>
-            Final Takeaway:
-        </strong>
-
-        Properly selected SQL constraints act as a first
-        line of defense against incorrect, duplicate and
-        inconsistent data, making the college database
-        more reliable and maintainable.
-
-    </div>
+  </div>
 
 </section>
-
 
 </main>
 
 
-<!-- ================= FOOTER ================= -->
-
+<!-- FOOTER -->
 <footer class="footer">
 
-    <h3>
-        Activity 3 • Database Integrity Failures
-    </h3>
+  <h3>Activity 3 • Database Integrity Failures</h3>
 
-    <p>
-        Prepared by Rhutuja Adhatrao •
-        Hansika Agrawal •
-        Ahad Shaikh
-    </p>
+  <p>
+    Prepared by Rhutuja Adhatrao • Hansika Agrawal • Ahad Shaikh
+  </p>
 
-    <p class="small">
-        College Database Management System |
-        Academic Blog
-    </p>
+  <p class="small">
+    College Database Management System | Academic Blog
+  </p>
 
 </footer>
 
